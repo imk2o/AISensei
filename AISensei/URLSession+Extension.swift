@@ -32,18 +32,19 @@ extension URLRequest {
     }
 }
 
-extension URLSession {
-    func post<JSON: Decodable>(
-        _ url: URLConvertible,
-        body: some Encodable,
-        requestEncoder: JSONEncoder = .init(),
-        responseDecoder: JSONDecoder = .init()
-    ) async throws -> (JSON, HTTPURLResponse) {
-        let (data, response) = try await data(for: .post(url, body: body, requestEncoder: requestEncoder))
-        
-        let httpResponse = response as! HTTPURLResponse
-        let json = try responseDecoder.decode(JSON.self, from: data)
-        
-        return (json, httpResponse)
-    }
-}
+//extension URLSession {
+//    func post<ResponseBody: Decodable>(
+//        _ url: URLConvertible,
+//        body: some Encodable,
+//        responseType type: ResponseBody.Type,
+//        requestEncoder: JSONEncoder = .init(),
+//        responseDecoder: JSONDecoder = .init()
+//    ) async throws -> (ResponseBody, HTTPURLResponse) {
+//        let (data, response) = try await data(for: .post(url, body: body, requestEncoder: requestEncoder))
+//        
+//        let httpResponse = response as! HTTPURLResponse
+//        let responseBody = try responseDecoder.decode(type, from: data)
+//        
+//        return (responseBody, httpResponse)
+//    }
+//}

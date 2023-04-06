@@ -11,24 +11,26 @@
 		B1661CA129DA4E5C0025D5C5 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */; };
 		B1661CA429DB94930025D5C5 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = B1661CA329DB94930025D5C5 /* Introspect */; };
 		B1661CA829DB97610025D5C5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CA729DB97610025D5C5 /* SettingsView.swift */; };
+		B1661CAD29DF67E10025D5C5 /* ChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CAC29DF67E10025D5C5 /* ChatPresenter.swift */; };
 		B1D0B97929D8E3920073AA9D /* AISenseiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */; };
-		B1D0B97B29D8E3920073AA9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97A29D8E3920073AA9D /* ContentView.swift */; };
+		B1D0B97B29D8E3920073AA9D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97A29D8E3920073AA9D /* ChatView.swift */; };
 		B1D0B97D29D8E3930073AA9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1D0B97C29D8E3930073AA9D /* Assets.xcassets */; };
 		B1D0B98029D8E3930073AA9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1D0B97F29D8E3930073AA9D /* Preview Assets.xcassets */; };
 		B1D0B98829D8EE290073AA9D /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B1D0B98729D8EE290073AA9D /* MarkdownUI */; };
-		B1D0B98A29D9004E0073AA9D /* ChatAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B98929D9004E0073AA9D /* ChatAIService.swift */; };
+		B1D0B98A29D9004E0073AA9D /* AIChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B98929D9004E0073AA9D /* AIChatService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		B1661CA729DB97610025D5C5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B1661CAC29DF67E10025D5C5 /* ChatPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPresenter.swift; sourceTree = "<group>"; };
 		B1D0B97529D8E3920073AA9D /* AISensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AISensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISenseiApp.swift; sourceTree = "<group>"; };
-		B1D0B97A29D8E3920073AA9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B1D0B97A29D8E3920073AA9D /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		B1D0B97C29D8E3930073AA9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1D0B97F29D8E3930073AA9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B1D0B98929D9004E0073AA9D /* ChatAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAIService.swift; sourceTree = "<group>"; };
+		B1D0B98929D9004E0073AA9D /* AIChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIChatService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +49,7 @@
 		B1661C9E29DA4DE20025D5C5 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				B1D0B98929D9004E0073AA9D /* ChatAIService.swift */,
+				B1D0B98929D9004E0073AA9D /* AIChatService.swift */,
 				B1661C9F29DA4DEB0025D5C5 /* Models */,
 			);
 			path = Domain;
@@ -64,6 +66,7 @@
 		B1661CA529DB97370025D5C5 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B1661CA929DF672B0025D5C5 /* Chat */,
 				B1661CA629DB973E0025D5C5 /* Settings */,
 			);
 			path = Presentation;
@@ -75,6 +78,15 @@
 				B1661CA729DB97610025D5C5 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		B1661CA929DF672B0025D5C5 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				B1D0B97A29D8E3920073AA9D /* ChatView.swift */,
+				B1661CAC29DF67E10025D5C5 /* ChatPresenter.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		B1D0B96C29D8E3920073AA9D = {
@@ -99,7 +111,6 @@
 				B1661CA529DB97370025D5C5 /* Presentation */,
 				B1661C9E29DA4DE20025D5C5 /* Domain */,
 				B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */,
-				B1D0B97A29D8E3920073AA9D /* ContentView.swift */,
 				B1D0B97C29D8E3930073AA9D /* Assets.xcassets */,
 				B1D0B97E29D8E3930073AA9D /* Preview Content */,
 				B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */,
@@ -194,11 +205,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1661C9D29DA47A60025D5C5 /* URLSession+Extension.swift in Sources */,
-				B1D0B97B29D8E3920073AA9D /* ContentView.swift in Sources */,
-				B1D0B98A29D9004E0073AA9D /* ChatAIService.swift in Sources */,
+				B1D0B97B29D8E3920073AA9D /* ChatView.swift in Sources */,
+				B1D0B98A29D9004E0073AA9D /* AIChatService.swift in Sources */,
 				B1661CA829DB97610025D5C5 /* SettingsView.swift in Sources */,
 				B1661CA129DA4E5C0025D5C5 /* ChatMessage.swift in Sources */,
 				B1D0B97929D8E3920073AA9D /* AISenseiApp.swift in Sources */,
+				B1661CAD29DF67E10025D5C5 /* ChatPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

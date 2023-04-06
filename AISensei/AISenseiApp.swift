@@ -11,7 +11,7 @@ import SwiftUI
 struct AISenseiApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ChatView()
         }
 #if os(macOS)
         Settings {
