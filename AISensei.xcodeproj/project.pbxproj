@@ -7,18 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1661C9D29DA47A60025D5C5 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */; };
+		B1661CA129DA4E5C0025D5C5 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */; };
+		B1661CA429DB94930025D5C5 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = B1661CA329DB94930025D5C5 /* Introspect */; };
+		B1661CA829DB97610025D5C5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CA729DB97610025D5C5 /* SettingsView.swift */; };
 		B1D0B97929D8E3920073AA9D /* AISenseiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */; };
 		B1D0B97B29D8E3920073AA9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97A29D8E3920073AA9D /* ContentView.swift */; };
 		B1D0B97D29D8E3930073AA9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1D0B97C29D8E3930073AA9D /* Assets.xcassets */; };
 		B1D0B98029D8E3930073AA9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1D0B97F29D8E3930073AA9D /* Preview Assets.xcassets */; };
+		B1D0B98829D8EE290073AA9D /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B1D0B98729D8EE290073AA9D /* MarkdownUI */; };
+		B1D0B98A29D9004E0073AA9D /* ChatAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B98929D9004E0073AA9D /* ChatAIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		B1661CA729DB97610025D5C5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B1D0B97529D8E3920073AA9D /* AISensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AISensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISenseiApp.swift; sourceTree = "<group>"; };
 		B1D0B97A29D8E3920073AA9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B1D0B97C29D8E3930073AA9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1D0B97F29D8E3930073AA9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B1D0B98929D9004E0073AA9D /* ChatAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,12 +36,47 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1D0B98829D8EE290073AA9D /* MarkdownUI in Frameworks */,
+				B1661CA429DB94930025D5C5 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B1661C9E29DA4DE20025D5C5 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				B1D0B98929D9004E0073AA9D /* ChatAIService.swift */,
+				B1661C9F29DA4DEB0025D5C5 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B1661C9F29DA4DEB0025D5C5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B1661CA529DB97370025D5C5 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				B1661CA629DB973E0025D5C5 /* Settings */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		B1661CA629DB973E0025D5C5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B1661CA729DB97610025D5C5 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		B1D0B96C29D8E3920073AA9D = {
 			isa = PBXGroup;
 			children = (
@@ -51,10 +96,13 @@
 		B1D0B97729D8E3920073AA9D /* AISensei */ = {
 			isa = PBXGroup;
 			children = (
+				B1661CA529DB97370025D5C5 /* Presentation */,
+				B1661C9E29DA4DE20025D5C5 /* Domain */,
 				B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */,
 				B1D0B97A29D8E3920073AA9D /* ContentView.swift */,
 				B1D0B97C29D8E3930073AA9D /* Assets.xcassets */,
 				B1D0B97E29D8E3930073AA9D /* Preview Content */,
+				B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */,
 			);
 			path = AISensei;
 			sourceTree = "<group>";
@@ -83,6 +131,10 @@
 			dependencies = (
 			);
 			name = AISensei;
+			packageProductDependencies = (
+				B1D0B98729D8EE290073AA9D /* MarkdownUI */,
+				B1661CA329DB94930025D5C5 /* Introspect */,
+			);
 			productName = AISensei;
 			productReference = B1D0B97529D8E3920073AA9D /* AISensei.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +163,10 @@
 				Base,
 			);
 			mainGroup = B1D0B96C29D8E3920073AA9D;
+			packageReferences = (
+				B1D0B98629D8EE290073AA9D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				B1661CA229DB94930025D5C5 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
 			productRefGroup = B1D0B97629D8E3920073AA9D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,7 +193,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1661C9D29DA47A60025D5C5 /* URLSession+Extension.swift in Sources */,
 				B1D0B97B29D8E3920073AA9D /* ContentView.swift in Sources */,
+				B1D0B98A29D9004E0073AA9D /* ChatAIService.swift in Sources */,
+				B1661CA829DB97610025D5C5 /* SettingsView.swift in Sources */,
+				B1661CA129DA4E5C0025D5C5 /* ChatMessage.swift in Sources */,
 				B1D0B97929D8E3920073AA9D /* AISenseiApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,7 +255,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -249,7 +309,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -282,6 +342,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.imk2o.AISensei;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -311,6 +374,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.imk2o.AISensei;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -339,6 +405,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B1661CA229DB94930025D5C5 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.2.3;
+			};
+		};
+		B1D0B98629D8EE290073AA9D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B1661CA329DB94930025D5C5 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B1661CA229DB94930025D5C5 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
+		B1D0B98729D8EE290073AA9D /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B1D0B98629D8EE290073AA9D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B1D0B96D29D8E3920073AA9D /* Project object */;
 }
