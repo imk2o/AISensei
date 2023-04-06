@@ -56,7 +56,7 @@ struct ChatView: View {
 //                    }
                     .frame(minHeight: 40, maxHeight: 120)
                     .fixedSize(horizontal: false, vertical: true)
-                Button("Submit", action: { Task { await presenter.send() } })
+                Button("Submit", action: { Task { await presenter.sendStream() } })
                     .keyboardShortcut(.return)
             }
             .padding()

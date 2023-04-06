@@ -66,12 +66,12 @@ final class AIChatService {
         let choices: [Choice]
     }
 
-    func send(_ message: String) async throws -> ChatMessage {
+    func send(_ prompt: String) async throws -> ChatMessage {
         let (data, response) = try await session.data(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
                 model: "gpt-3.5-turbo",
-                messages: [.init(role: "user", content: message)],
+                messages: [.init(role: "user", content: prompt)],
                 stream: false
             ),
             requestEncoder: requestEncoder
@@ -91,12 +91,12 @@ final class AIChatService {
         return message
     }
     
-    func sendStream(_ message: String) async throws -> AsyncThrowingStream<String, Error> {
+    func sendStream(_ prompt: String) async throws -> AsyncThrowingStream<String, Error> {
         let (result, response) = try await session.bytes(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
                 model: "gpt-3.5-turbo",
-                messages: [.init(role: "user", content: message)],
+                messages: [.init(role: "user", content: prompt)],
                 stream: true
             ),
             requestEncoder: requestEncoder
