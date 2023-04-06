@@ -11,6 +11,10 @@ import Introspect
 
 struct ChatView: View {
     @StateObject var presenter = ChatPresenter()
+    private enum Field: Hashable {
+        case prompt
+    }
+    @FocusState private var focusedField: Field?
     
     var body: some View {
         Group {
@@ -23,7 +27,11 @@ struct ChatView: View {
                 contentView()
             }
         }
-        .onAppear { Task { await presenter.prepare() } }
+        .onAppear {
+            Task { await presenter.prepare() }
+            // プロンプトにフォーカス
+            focusedField = .prompt
+        }
     }
     
     private func contentView() -> some View {
@@ -54,10 +62,13 @@ struct ChatView: View {
 //                    .introspectTextView { textView in
 //                        textView.becomeFirstResponder()
 //                    }
+                    .focused($focusedField, equals: .prompt)
+                    .disabled(!presenter.canEdit)
                     .frame(minHeight: 40, maxHeight: 120)
                     .fixedSize(horizontal: false, vertical: true)
-                Button("Submit", action: { Task { await presenter.sendStream() } })
+                Button("Send", action: { Task { await presenter.sendStream() } })
                     .keyboardShortcut(.return)
+                    .disabled(!presenter.canSubmit)
             }
             .padding()
         }

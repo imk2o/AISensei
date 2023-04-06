@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import AVFoundation
 
 @MainActor
@@ -17,6 +18,9 @@ final class ChatPresenter: ObservableObject {
         case answering
     }
     @Published private(set) var state: State = .unprepared
+    @Published private(set) var canEdit = false
+    @Published private(set) var canSubmit = false
+
     @Published private(set) var isSetupRequired = false
     @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
     
@@ -36,11 +40,10 @@ final class ChatPresenter: ObservableObject {
     }
     @Published var messages: [Message] = []
 
-    @AppStorage("chatGPTAPIKey") private var apiKey = ""
+    init() {
+        bind()
+    }
     
-    private let speechSynthsizer = AVSpeechSynthesizer()
-    private var speechVoices: [AVSpeechSynthesisVoice] = []
-
     func prepare() async {
 //        guard state == .unprepared else { return }
 
@@ -53,11 +56,16 @@ final class ChatPresenter: ObservableObject {
     }
     
     func send() async {
+        guard canSubmit else { return }
+        
         messages.append(.init(role: "user", content: prompt))
 
-        let service = AIChatService(apiKey: apiKey)
+        defer { state = .ready }
         do {
-            let message = try await service.send(prompt)
+            state = .querying
+            let message = try await chatService.send(prompt)
+            
+            prompt = ""
             messages.append(.init(message))
         } catch {
             dump(error)
@@ -65,12 +73,17 @@ final class ChatPresenter: ObservableObject {
     }
     
     func sendStream() async {
+        guard canSubmit else { return }
+
         messages.append(.init(role: "user", content: prompt))
 
-        let service = AIChatService(apiKey: apiKey)
+        defer { state = .ready }
         do {
-            let stream = try await service.sendStream(prompt)
+            state = .querying
+            let stream = try await chatService.sendStream(prompt)
             
+            prompt = ""
+            state = .answering
             messages.append(.init(role: "", content: ""))
             var joinedText = ""
             for try await text in stream {
@@ -92,5 +105,42 @@ final class ChatPresenter: ObservableObject {
         let utterance = AVSpeechUtterance(string: message.content)
         utterance.voice = speechVoices.randomElement()
         speechSynthsizer.speak(utterance)
+    }
+    
+    // MARK: - private
+    
+    @AppStorage("chatGPTAPIKey") private var apiKey = ""
+    private lazy var chatService = AIChatService(apiKey: apiKey)
+    private let speechSynthsizer = AVSpeechSynthesizer()
+    private var speechVoices: [AVSpeechSynthesisVoice] = []
+    private var cancellables = Set<AnyCancellable>()
+    
+    private func bind() {
+        // canEdit <= state
+        $state
+            .map {
+                switch $0 {
+                case .ready:
+                    return true
+                case .unprepared, .querying, .answering:
+                    return false
+                }
+            }
+            .assign(to: \.canEdit, on: self)
+            .store(in: &cancellables)
+        
+        // canSubmit <= state, prompt
+        Publishers
+            .CombineLatest($state, $prompt)
+            .map {
+                switch $0 {
+                case .ready:
+                    return !$1.isEmpty
+                case .unprepared, .querying, .answering:
+                    return false
+                }
+            }
+            .assign(to: \.canSubmit, on: self)
+            .store(in: &cancellables)
     }
 }
