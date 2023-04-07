@@ -27,6 +27,7 @@ struct ChatView: View {
                 contentView()
             }
         }
+        .frame(minWidth: 640, minHeight: 400)
         .onAppear {
             Task { await presenter.prepare() }
             // プロンプトにフォーカス
