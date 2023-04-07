@@ -67,9 +67,20 @@ struct ChatView: View {
                     .disabled(!presenter.canEdit)
                     .frame(minHeight: 40, maxHeight: 120)
                     .fixedSize(horizontal: false, vertical: true)
-                Button("Send", action: { Task { await presenter.sendStream() } })
-                    .keyboardShortcut(.return)
-                    .disabled(!presenter.canSubmit)
+                Button(
+                    action: {
+                        Task { await presenter.sendStream() }
+                    },
+                    label: {
+                        if presenter.state == .querying {
+                            ProgressView()
+                        } else {
+                            Text("Send")
+                        }
+                    }
+                )
+                .keyboardShortcut(.return)
+                .disabled(!presenter.canSubmit)
             }
             .padding()
         }

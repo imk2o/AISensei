@@ -1,13 +1,13 @@
 //
-//  AIChatService.swift
+//  ChatAPI.swift
 //  AISensei
 //
-//  Created by k2o on 2023/04/02.
+//  Created by k2o on 2023/04/08.
 //
 
 import Foundation
 
-final class AIChatService {
+final class ChatAPI {
     private let apiKey: String
     private let session: URLSession
     private let requestEncoder: JSONEncoder
@@ -91,7 +91,7 @@ final class AIChatService {
         return message
     }
     
-    func sendStream(_ prompt: String) async throws -> AsyncThrowingStream<String, Error> {
+    func sendStream(_ prompt: String) async throws -> AsyncThrowingStream<ChatMessage, Error> {
         let (result, response) = try await session.bytes(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
@@ -108,20 +108,33 @@ final class AIChatService {
             fatalError("FIXME")
         }
          
-        return AsyncThrowingStream<String, Error> { continuation in
+        return .init { continuation in
             Task {
                 do {
+                    var responseRole = ""
                     var responseText = ""
                     for try await line in result.lines {
-                        if line.hasPrefix("data: "),
-                           let data = line.dropFirst(6).data(using: .utf8),
-                           let response = try? responseDecoder.decode(StreamResponseBody.self, from: data),
-                           let text = response.choices.first?.delta.content {
-                            responseText += text
-                            continuation.yield(text)
+                        guard
+                            line.hasPrefix("data: "),
+                            let data = line.dropFirst(6).data(using: .utf8),
+                            let response = try? responseDecoder.decode(StreamResponseBody.self, from: data),
+                            let choice = response.choices.first
+                        else {
+                            continue
                         }
+                        
+                        if
+                            responseRole.isEmpty,
+                            let role = choice.delta.role
+                        {
+                            responseRole = role
+                        }
+                        if let text = choice.delta.content {
+                            responseText += text
+                        }
+                        
+                        continuation.yield(.init(role: responseRole, content: responseText))
                     }
-//                    self.appendToHistoryList(userText: text, responseText: responseText)
                     continuation.finish()
                 } catch {
                     continuation.finish(throwing: error)
