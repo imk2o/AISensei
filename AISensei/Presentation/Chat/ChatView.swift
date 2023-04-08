@@ -10,12 +10,17 @@ import MarkdownUI
 import Introspect
 
 struct ChatView: View {
-    @StateObject var presenter = ChatPresenter()
+    @ObservedObject private(set) var presenter: ChatPresenter
+
+    init(session: ChatSession) {
+        self.presenter = .init(chatSession: session)
+    }
+
     private enum Field: Hashable {
         case prompt
     }
     @FocusState private var focusedField: Field?
-    
+
     var body: some View {
         Group {
             if presenter.state == .unprepared {
@@ -28,8 +33,8 @@ struct ChatView: View {
             }
         }
         .frame(minWidth: 640, minHeight: 400)
-        .onAppear {
-            Task { await presenter.prepare() }
+        .task {
+            await presenter.prepare()
             // プロンプトにフォーカス
             focusedField = .prompt
         }
@@ -90,11 +95,5 @@ struct ChatView: View {
     private func showSettings() {
         NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
         NSApp.activate(ignoringOtherApps: true)
-    }
-}
-
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView()
     }
 }

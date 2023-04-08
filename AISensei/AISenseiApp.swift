@@ -11,8 +11,12 @@ import SwiftUI
 struct AISenseiApp: App {
     var body: some Scene {
         WindowGroup {
-            ChatView()
+            ContentView()
         }
+//        MenuBarExtra("AI Sensei", systemImage: "star.fill") {
+//            MenuView()
+//        }
+//        .menuBarExtraStyle(.window)
 #if os(macOS)
         Settings {
             SettingsView()

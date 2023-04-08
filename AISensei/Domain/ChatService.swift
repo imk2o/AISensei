@@ -13,6 +13,10 @@ final class ChatService {
         self.store = store
     }
 
+    func allSessions() async throws -> [ChatSession] {
+        return try await store.allSessions()
+    }
+    
     func newSession() async throws -> ChatSession {
         return try await store.newSession()
     }

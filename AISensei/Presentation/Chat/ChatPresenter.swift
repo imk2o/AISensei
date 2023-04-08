@@ -11,7 +11,9 @@ import AVFoundation
 
 @MainActor
 final class ChatPresenter: ObservableObject {
-    enum State {
+    let chatSession: ChatSession
+    
+    enum State: String {
         case unprepared
         case ready
         case querying
@@ -40,7 +42,8 @@ final class ChatPresenter: ObservableObject {
     }
     @Published var messages: [Message] = []
 
-    init() {
+    init(chatSession: ChatSession) {
+        self.chatSession = chatSession
         bind()
     }
     
@@ -51,7 +54,7 @@ final class ChatPresenter: ObservableObject {
             speechVoices = AVSpeechSynthesisVoice.speechVoices()
                 .filter { $0.language == "ja-JP" }
 
-            chatSession = try await chatService.newSession()
+            messages = chatSession.messages.map(Message.init)
             
             isSetupRequired = apiKey.isEmpty
             state = .ready
@@ -81,10 +84,7 @@ final class ChatPresenter: ObservableObject {
 //    }
     
     func sendStream() async {
-        guard
-            canSubmit,
-            let chatSession
-        else { return }
+        guard canSubmit else { return }
 
         defer { state = .ready }
         do {
@@ -129,7 +129,6 @@ final class ChatPresenter: ObservableObject {
         api: ChatAPI(apiKey: apiKey),
         store: ChatStore.shared
     )
-    private var chatSession: ChatSession?
     
     private let speechSynthsizer = AVSpeechSynthesizer()
     private var speechVoices: [AVSpeechSynthesisVoice] = []
