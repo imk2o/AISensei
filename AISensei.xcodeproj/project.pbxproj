@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B10CA0F829E23BA900FC0A2C /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B10CA0F729E23BA900FC0A2C /* GRDB */; };
+		B10CA0FB29E2417100FC0A2C /* ChatSessionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10CA0FA29E2417100FC0A2C /* ChatSessionRecord.swift */; };
+		B10CA0FD29E2417B00FC0A2C /* ChatMessageRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10CA0FC29E2417B00FC0A2C /* ChatMessageRecord.swift */; };
+		B10CA10029E3821600FC0A2C /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10CA0FF29E3821600FC0A2C /* FileManager+Extension.swift */; };
+		B10CA10229E386ED00FC0A2C /* ChatSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10CA10129E386ED00FC0A2C /* ChatSession.swift */; };
+		B10CA10429E38A0900FC0A2C /* ChatMessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10CA10329E38A0900FC0A2C /* ChatMessageResponse.swift */; };
 		B1661C9D29DA47A60025D5C5 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */; };
 		B1661CA129DA4E5C0025D5C5 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */; };
 		B1661CA429DB94930025D5C5 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = B1661CA329DB94930025D5C5 /* Introspect */; };
@@ -25,6 +31,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B10CA0FA29E2417100FC0A2C /* ChatSessionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSessionRecord.swift; sourceTree = "<group>"; };
+		B10CA0FC29E2417B00FC0A2C /* ChatMessageRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageRecord.swift; sourceTree = "<group>"; };
+		B10CA0FF29E3821600FC0A2C /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		B10CA10129E386ED00FC0A2C /* ChatSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSession.swift; sourceTree = "<group>"; };
+		B10CA10329E38A0900FC0A2C /* ChatMessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageResponse.swift; sourceTree = "<group>"; };
 		B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		B1661CA729DB97610025D5C5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -47,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B10CA0F829E23BA900FC0A2C /* GRDB in Frameworks */,
 				B1D0B98829D8EE290073AA9D /* MarkdownUI in Frameworks */,
 				B1661CA429DB94930025D5C5 /* Introspect in Frameworks */,
 			);
@@ -55,11 +67,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B10CA0FE29E3820800FC0A2C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */,
+				B10CA0FF29E3821600FC0A2C /* FileManager+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B10CA10529E3EE8800FC0A2C /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				B10CA0FA29E2417100FC0A2C /* ChatSessionRecord.swift */,
+				B10CA0FC29E2417B00FC0A2C /* ChatMessageRecord.swift */,
+				B10CA10329E38A0900FC0A2C /* ChatMessageResponse.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
 		B1661C9E29DA4DE20025D5C5 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
 				B1D0B98929D9004E0073AA9D /* ChatService.swift */,
 				B1661C9F29DA4DEB0025D5C5 /* Models */,
+				B10CA10529E3EE8800FC0A2C /* Interfaces */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -68,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				B1661CA029DA4E5C0025D5C5 /* ChatMessage.swift */,
+				B10CA10129E386ED00FC0A2C /* ChatSession.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -140,10 +173,10 @@
 				B1661CA529DB97370025D5C5 /* Presentation */,
 				B1661C9E29DA4DE20025D5C5 /* Domain */,
 				B1661CCD29E0C87A0025D5C5 /* Store */,
+				B10CA0FE29E3820800FC0A2C /* Extensions */,
 				B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */,
 				B1D0B97C29D8E3930073AA9D /* Assets.xcassets */,
 				B1D0B97E29D8E3930073AA9D /* Preview Content */,
-				B1661C9C29DA47A60025D5C5 /* URLSession+Extension.swift */,
 			);
 			path = AISensei;
 			sourceTree = "<group>";
@@ -175,6 +208,7 @@
 			packageProductDependencies = (
 				B1D0B98729D8EE290073AA9D /* MarkdownUI */,
 				B1661CA329DB94930025D5C5 /* Introspect */,
+				B10CA0F729E23BA900FC0A2C /* GRDB */,
 			);
 			productName = AISensei;
 			productReference = B1D0B97529D8E3920073AA9D /* AISensei.app */;
@@ -207,6 +241,7 @@
 			packageReferences = (
 				B1D0B98629D8EE290073AA9D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				B1661CA229DB94930025D5C5 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				B10CA0F629E23BA900FC0A2C /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 			);
 			productRefGroup = B1D0B97629D8E3920073AA9D /* Products */;
 			projectDirPath = "";
@@ -236,13 +271,18 @@
 			files = (
 				B1661C9D29DA47A60025D5C5 /* URLSession+Extension.swift in Sources */,
 				B1D0B97B29D8E3920073AA9D /* ChatView.swift in Sources */,
+				B10CA10229E386ED00FC0A2C /* ChatSession.swift in Sources */,
 				B1D0B98A29D9004E0073AA9D /* ChatService.swift in Sources */,
 				B1661CA829DB97610025D5C5 /* SettingsView.swift in Sources */,
 				B1661CA129DA4E5C0025D5C5 /* ChatMessage.swift in Sources */,
+				B10CA10029E3821600FC0A2C /* FileManager+Extension.swift in Sources */,
 				B1661CD629E0DEB60025D5C5 /* ContentPresenter.swift in Sources */,
+				B10CA10429E38A0900FC0A2C /* ChatMessageResponse.swift in Sources */,
+				B10CA0FD29E2417B00FC0A2C /* ChatMessageRecord.swift in Sources */,
 				B1D0B97929D8E3920073AA9D /* AISenseiApp.swift in Sources */,
 				B1661CD329E0DD890025D5C5 /* ContentView.swift in Sources */,
 				B1661CAD29DF67E10025D5C5 /* ChatPresenter.swift in Sources */,
+				B10CA0FB29E2417100FC0A2C /* ChatSessionRecord.swift in Sources */,
 				B1661CD129E0CB8C0025D5C5 /* ChatStore.swift in Sources */,
 				B1661CCF29E0C8AD0025D5C5 /* ChatAPI.swift in Sources */,
 			);
@@ -457,6 +497,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B10CA0F629E23BA900FC0A2C /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				branch = v6.10.1;
+				kind = branch;
+			};
+		};
 		B1661CA229DB94930025D5C5 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
@@ -476,6 +524,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B10CA0F729E23BA900FC0A2C /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B10CA0F629E23BA900FC0A2C /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
 		B1661CA329DB94930025D5C5 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B1661CA229DB94930025D5C5 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;

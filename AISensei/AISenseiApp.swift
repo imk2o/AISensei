@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct AISenseiApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -22,5 +24,18 @@ struct AISenseiApp: App {
             SettingsView()
         }
 #endif
+    }
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        bootstrap()
+    }
+    
+    private func bootstrap() {
+        try? FileManager.default.createDirectory(
+            at: FileManager.default.applicationSupportDirectory,
+            withIntermediateDirectories: true
+        )
     }
 }

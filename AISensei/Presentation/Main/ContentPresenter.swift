@@ -14,7 +14,7 @@ final class ContentPresenter: ObservableObject {
         let session: ChatSession
 
         var title: String {
-            return session.messages.first?.content ?? "(New Session)"
+            return session.title.isEmpty ? "(New Session)" : session.title
         }
 
         static func == (lhs: Self, rhs: Self) -> Bool {
@@ -29,9 +29,7 @@ final class ContentPresenter: ObservableObject {
     
     func prepare() async {
         do {
-            items = try await chatService
-                .allSessions()
-                .map(Item.init)
+            try await refresh()
         } catch {
             dump(error)
         }
@@ -48,6 +46,21 @@ final class ContentPresenter: ObservableObject {
             dump(error)
             return nil
         }
+    }
+    
+    func removeSession(_ session: ChatSession) async {
+        do {
+            try await chatService.removeSession(session)
+            try await refresh()
+        } catch {
+            dump(error)
+        }
+    }
+    
+    private func refresh() async throws {
+        items = try await chatService
+            .allSessions()
+            .map(Item.init)
     }
     
     @AppStorage("chatGPTAPIKey") private var apiKey = ""

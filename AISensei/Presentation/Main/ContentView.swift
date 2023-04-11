@@ -17,6 +17,11 @@ struct ContentView: View {
             sidebar: {
                 List(presenter.items, selection: $selectedItem) { item in
                     NavigationLink(item.title, value: item)
+                        .contextMenu {
+                            Button("Remove") {
+                                Task { await presenter.removeSession(item.session) }
+                            }
+                        }
                 }
                 .listStyle(.sidebar)
                 .navigationSplitViewColumnWidth(240)

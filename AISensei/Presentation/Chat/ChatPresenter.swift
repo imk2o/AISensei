@@ -26,21 +26,7 @@ final class ChatPresenter: ObservableObject {
     @Published private(set) var isSetupRequired = false
     @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
     
-    struct Message: Hashable {
-        let role: String
-        var content: String
-
-        init(role: String, content: String) {
-            self.role = role
-            self.content = content
-        }
-
-        init(_ chatMessage: ChatMessage) {
-            self.role = chatMessage.role
-            self.content = chatMessage.content
-        }
-    }
-    @Published var messages: [Message] = []
+    @Published var messages: [ChatMessage] = []
 
     init(chatSession: ChatSession) {
         self.chatSession = chatSession
@@ -54,7 +40,7 @@ final class ChatPresenter: ObservableObject {
             speechVoices = AVSpeechSynthesisVoice.speechVoices()
                 .filter { $0.language == "ja-JP" }
 
-            messages = chatSession.messages.map(Message.init)
+            messages = try await chatService.messages(for: chatSession)
             
             isSetupRequired = apiKey.isEmpty
             state = .ready
@@ -88,34 +74,41 @@ final class ChatPresenter: ObservableObject {
 
         defer { state = .ready }
         do {
-            state = .querying
-            let stream = try await chatService.sendStream(prompt, for: chatSession)
-
-            let lastMessages = chatSession.messages.map(Message.init)
-            // promptを追加したメッセージを反映
-            messages = lastMessages
-            
-            // 回答中のメッセージを反映
-            prompt = ""
-            state = .answering
-            for try await message in stream {
-                let answeringMessage = Message(message)
-                messages = lastMessages + [answeringMessage]
+            // タイトルが空の場合は最初の質問を反映
+            if chatSession.title.isEmpty {
+                try await chatService.updateTitle(prompt, for: chatSession)
             }
             
-            // 回答後の最終メッセージを反映
-            messages = chatSession.messages.map(Message.init)
+            var lastMessages: [ChatMessage] = []
+            let stream = try await chatService.sendStream(prompt, for: chatSession)
+            for try await progress in stream {
+                switch progress {
+                case .querying(let message):
+                    // promptを追加したメッセージ
+                    state = .querying
+                    prompt = ""
+                    messages.append(message)
+                    lastMessages = messages
+                case .answering(let message):
+                    // 回答中のメッセージ
+                    state = .answering
+                    messages = lastMessages + [message]
+                case .finalAnswer(let message):
+                    // 最終的なメッセージ
+                    messages = lastMessages + [message]
+                }
+            }
         } catch {
             dump(error)
         }
     }
     
-    func copy(message: Message) async {
+    func copy(message: ChatMessage) async {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(message.content, forType: .string)
     }
     
-    func speak(message: Message) async {
+    func speak(message: ChatMessage) async {
         speechSynthsizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: message.content)
         utterance.voice = speechVoices.randomElement()

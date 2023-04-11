@@ -31,7 +31,7 @@ final class ChatAPI {
     
     private struct RequestBody: Encodable {
         let model: String
-        let messages: [ChatMessage]
+        let messages: [ChatMessageResponse]
         let stream: Bool
     }
     
@@ -47,7 +47,7 @@ final class ChatAPI {
         }
         let usage: Usage
         struct Choice: Decodable {
-            let message: ChatMessage
+            let message: ChatMessageResponse
             let finishReason: String
             let index: Int
         }
@@ -66,7 +66,7 @@ final class ChatAPI {
         let choices: [Choice]
     }
 
-    func send(_ prompt: String) async throws -> ChatMessage {
+    func send(_ prompt: String) async throws -> ChatMessageResponse {
         let (data, response) = try await session.data(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
@@ -91,7 +91,7 @@ final class ChatAPI {
         return message
     }
     
-    func sendStream(_ prompt: String) async throws -> AsyncThrowingStream<ChatMessage, Error> {
+    func sendStream(_ prompt: String) async throws -> AsyncThrowingStream<ChatMessageResponse, Error> {
         let (result, response) = try await session.bytes(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
