@@ -39,6 +39,7 @@ struct ContentView: View {
                                 Image(systemName: "plus")
                             }
                         )
+                        .keyboardShortcut("n")
                     }
                 }
             },

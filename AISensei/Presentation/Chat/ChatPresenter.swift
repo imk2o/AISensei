@@ -24,8 +24,9 @@ final class ChatPresenter: ObservableObject {
     @Published private(set) var canSubmit = false
 
     @Published private(set) var isSetupRequired = false
-    @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
-    
+    @Published var prompt: String = ""
+//    @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
+
     @Published var messages: [ChatMessage] = []
 
     init(chatSession: ChatSession) {
