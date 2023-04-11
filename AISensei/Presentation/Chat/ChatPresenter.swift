@@ -11,7 +11,9 @@ import AVFoundation
 
 @MainActor
 final class ChatPresenter: ObservableObject {
-    enum State {
+    let chatSession: ChatSession
+    
+    enum State: String {
         case unprepared
         case ready
         case querying
@@ -22,85 +24,92 @@ final class ChatPresenter: ObservableObject {
     @Published private(set) var canSubmit = false
 
     @Published private(set) var isSetupRequired = false
-    @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
-    
-    struct Message: Hashable {
-        let role: String
-        var content: String
+    @Published var prompt: String = ""
+//    @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
 
-        init(role: String, content: String) {
-            self.role = role
-            self.content = content
-        }
+    @Published var messages: [ChatMessage] = []
 
-        init(_ chatMessage: ChatMessage) {
-            self.role = chatMessage.role
-            self.content = chatMessage.content
-        }
-    }
-    @Published var messages: [Message] = []
-
-    init() {
+    init(chatSession: ChatSession) {
+        self.chatSession = chatSession
         bind()
     }
     
     func prepare() async {
 //        guard state == .unprepared else { return }
 
-        isSetupRequired = apiKey.isEmpty
-        state = .ready
-
-        
-        speechVoices = AVSpeechSynthesisVoice.speechVoices()
-            .filter { $0.language == "ja-JP" }
-    }
-    
-    func send() async {
-        guard canSubmit else { return }
-        
-        messages.append(.init(role: "user", content: prompt))
-
-        defer { state = .ready }
         do {
-            state = .querying
-            let message = try await chatService.send(prompt)
+            speechVoices = AVSpeechSynthesisVoice.speechVoices()
+                .filter { $0.language == "ja-JP" }
+
+            messages = try await chatService.messages(for: chatSession)
             
-            prompt = ""
-            messages.append(.init(message))
+            isSetupRequired = apiKey.isEmpty
+            state = .ready
         } catch {
             dump(error)
         }
     }
     
+//    func send() async {
+//        guard
+//            canSubmit,
+//            let chatSession
+//        else { return }
+//
+//        messages.append(.init(role: "user", content: prompt))
+//
+//        defer { state = .ready }
+//        do {
+//            state = .querying
+//            let message = try await chatService.send(prompt)
+//
+//            prompt = ""
+//            messages.append(.init(message))
+//        } catch {
+//            dump(error)
+//        }
+//    }
+    
     func sendStream() async {
         guard canSubmit else { return }
 
-        messages.append(.init(role: "user", content: prompt))
-
         defer { state = .ready }
         do {
-            state = .querying
-            let stream = try await chatService.sendStream(prompt)
+            // タイトルが空の場合は最初の質問を反映
+            if chatSession.title.isEmpty {
+                try await chatService.updateTitle(prompt, for: chatSession)
+            }
             
-            prompt = ""
-            state = .answering
-            messages.append(.init(role: "", content: ""))
-            var joinedText = ""
-            for try await text in stream {
-                joinedText += text
-                messages[messages.count - 1].content = joinedText
+            var lastMessages: [ChatMessage] = []
+            let stream = try await chatService.sendStream(prompt, for: chatSession)
+            for try await progress in stream {
+                switch progress {
+                case .querying(let message):
+                    // promptを追加したメッセージ
+                    state = .querying
+                    prompt = ""
+                    messages.append(message)
+                    lastMessages = messages
+                case .answering(let message):
+                    // 回答中のメッセージ
+                    state = .answering
+                    messages = lastMessages + [message]
+                case .finalAnswer(let message):
+                    // 最終的なメッセージ
+                    messages = lastMessages + [message]
+                }
             }
         } catch {
             dump(error)
         }
     }
     
-    func copy(message: Message) async {
+    func copy(message: ChatMessage) async {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(message.content, forType: .string)
     }
     
-    func speak(message: Message) async {
+    func speak(message: ChatMessage) async {
         speechSynthsizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: message.content)
         utterance.voice = speechVoices.randomElement()
@@ -110,7 +119,11 @@ final class ChatPresenter: ObservableObject {
     // MARK: - private
     
     @AppStorage("chatGPTAPIKey") private var apiKey = ""
-    private lazy var chatService = AIChatService(apiKey: apiKey)
+    private lazy var chatService = ChatService(
+        api: ChatAPI(apiKey: apiKey),
+        store: ChatStore.shared
+    )
+    
     private let speechSynthsizer = AVSpeechSynthesizer()
     private var speechVoices: [AVSpeechSynthesisVoice] = []
     private var cancellables = Set<AnyCancellable>()
