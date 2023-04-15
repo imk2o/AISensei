@@ -10,7 +10,8 @@ import GRDB
 
 final class ChatStore {
     static let shared = ChatStore(
-        path: FileManager.default.applicationSupportFileURL(path: "chat.sqlite").path(percentEncoded: false)
+//        path: FileManager.default.applicationSupportFileURL(path: "chat.sqlite").path(percentEncoded: false)
+        path: FileManager.default.documentFileURL(path: "chat.sqlite").path(percentEncoded: false)
     )
     
     private init(path: String) {

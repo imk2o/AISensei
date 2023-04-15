@@ -105,8 +105,9 @@ final class ChatPresenter: ObservableObject {
     }
     
     func copy(message: ChatMessage) async {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(message.content, forType: .string)
+        UIPasteboard.general.string = message.content
+//        NSPasteboard.general.clearContents()
+//        NSPasteboard.general.setString(message.content, forType: .string)
     }
     
     func speak(message: ChatMessage) async {
