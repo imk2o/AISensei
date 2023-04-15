@@ -66,12 +66,15 @@ final class ChatAPI {
         let choices: [Choice]
     }
 
-    func send(_ prompt: String) async throws -> ChatMessageResponse {
+    func send(
+        _ prompt: String,
+        history messages: [ChatMessage]
+    ) async throws -> ChatMessageResponse {
         let (data, response) = try await session.data(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
                 model: "gpt-3.5-turbo",
-                messages: [.init(role: "user", content: prompt)],
+                messages: messages.map(ChatMessageResponse.init) + [.init(role: "user", content: prompt)],
                 stream: false
             ),
             requestEncoder: requestEncoder
@@ -91,12 +94,15 @@ final class ChatAPI {
         return message
     }
     
-    func sendStream(_ prompt: String) async throws -> AsyncThrowingStream<ChatMessageResponse, Error> {
+    func sendStream(
+        _ prompt: String,
+        history messages: [ChatMessage]
+    ) async throws -> AsyncThrowingStream<ChatMessageResponse, Error> {
         let (result, response) = try await session.bytes(for: .post(
             "https://api.openai.com/v1/chat/completions",
             body: RequestBody(
                 model: "gpt-3.5-turbo",
-                messages: [.init(role: "user", content: prompt)],
+                messages: messages.map(ChatMessageResponse.init) + [.init(role: "user", content: prompt)],
                 stream: true
             ),
             requestEncoder: requestEncoder
@@ -141,5 +147,12 @@ final class ChatAPI {
                 }
             }
         }
+    }
+}
+
+private extension ChatMessageResponse {
+    init(_ message: ChatMessage) {
+        self.role = message.role
+        self.content = message.content
     }
 }

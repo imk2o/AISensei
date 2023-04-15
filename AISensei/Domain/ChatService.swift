@@ -56,6 +56,8 @@ final class ChatService {
         return .init { continuation in
             Task {
                 do {
+                    let messages = try await messages(for: session)
+                    
                     let queryRecord = try await store.insertMessage(.init(
                         role: "user",
                         content: prompt,
@@ -63,7 +65,7 @@ final class ChatService {
                     ))
                     continuation.yield(.querying(.init(record: queryRecord)))
 
-                    let stream = try await api.sendStream(prompt)
+                    let stream = try await api.sendStream(prompt, history: messages)
 
                     var finalMessage: ChatMessage?
                     for try await response in stream {
