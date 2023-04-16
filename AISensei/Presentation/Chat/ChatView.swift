@@ -20,14 +20,13 @@ struct ChatView: View {
         case prompt
     }
     @FocusState private var focusedField: Field?
-
+    
     var body: some View {
         Group {
             if presenter.state == .unprepared {
                 ProgressView()
             } else if presenter.isSetupRequired {
-                Button("Setup...") { showSettings() }
-                    .buttonStyle(.link)
+                Button("Open Settings...") { showSettings() }
             } else {
                 contentView()
             }
@@ -52,12 +51,12 @@ struct ChatView: View {
                                     action: { Task { await presenter.speak(message: message) } },
                                     label: { Image(systemName: "speaker.wave.2") }
                                 )
-                                .buttonStyle(.link)
+//                                .buttonStyle(.link)
                                 Button(
                                     action: { Task { await presenter.copy(message: message) } },
                                     label: { Image(systemName: "doc.on.doc") }
                                 )
-                                .buttonStyle(.link)
+//                                .buttonStyle(.link)
                             }
                         }
                     }
@@ -93,7 +92,13 @@ struct ChatView: View {
     }
     
     private func showSettings() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        NSApp.activate(ignoringOtherApps: true)
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            Task {
+                await UIApplication.shared.open(url)
+            }
+        }
+        
+//        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+//        NSApp.activate(ignoringOtherApps: true)
     }
 }

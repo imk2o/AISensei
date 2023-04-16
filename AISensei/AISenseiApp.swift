@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct AISenseiApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+//    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
@@ -27,15 +27,15 @@ struct AISenseiApp: App {
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        bootstrap()
-    }
-    
-    private func bootstrap() {
-        try? FileManager.default.createDirectory(
-            at: FileManager.default.applicationSupportDirectory,
-            withIntermediateDirectories: true
-        )
-    }
-}
+//class AppDelegate: NSObject, NSApplicationDelegate {
+//    func applicationDidFinishLaunching(_ notification: Notification) {
+//        bootstrap()
+//    }
+//    
+//    private func bootstrap() {
+//        try? FileManager.default.createDirectory(
+//            at: FileManager.default.applicationSupportDirectory,
+//            withIntermediateDirectories: true
+//        )
+//    }
+//}
