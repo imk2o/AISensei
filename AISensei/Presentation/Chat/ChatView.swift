@@ -21,18 +21,12 @@ struct ChatView: View {
     }
     @FocusState private var focusedField: Field?
     
-    @State private var isSettingsPresented = false
-    
     var body: some View {
         Group {
             if presenter.state == .unprepared {
                 ProgressView()
             } else if presenter.isSetupRequired {
-                Button("Setup...") { showSettings() }
-                    .sheet(isPresented: $isSettingsPresented) {
-                        SettingsView()
-                    }
-//                    .buttonStyle(.link)
+                Button("Open Settings...") { showSettings() }
             } else {
                 contentView()
             }
@@ -98,7 +92,12 @@ struct ChatView: View {
     }
     
     private func showSettings() {
-        isSettingsPresented = true
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            Task {
+                await UIApplication.shared.open(url)
+            }
+        }
+        
 //        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
 //        NSApp.activate(ignoringOtherApps: true)
     }

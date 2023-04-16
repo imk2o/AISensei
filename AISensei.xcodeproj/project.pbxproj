@@ -22,6 +22,7 @@
 		B1661CD129E0CB8C0025D5C5 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CD029E0CB8C0025D5C5 /* ChatStore.swift */; };
 		B1661CD329E0DD890025D5C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CD229E0DD890025D5C5 /* ContentView.swift */; };
 		B1661CD629E0DEB60025D5C5 /* ContentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1661CD529E0DEB60025D5C5 /* ContentPresenter.swift */; };
+		B1BFF28029EC07C000185688 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B1BFF27F29EC07C000185688 /* Settings.bundle */; };
 		B1D0B97929D8E3920073AA9D /* AISenseiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */; };
 		B1D0B97B29D8E3920073AA9D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0B97A29D8E3920073AA9D /* ChatView.swift */; };
 		B1D0B97D29D8E3930073AA9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1D0B97C29D8E3930073AA9D /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		B1661CD229E0DD890025D5C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B1661CD529E0DEB60025D5C5 /* ContentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPresenter.swift; sourceTree = "<group>"; };
 		B1BFF27E29EA2C6D00185688 /* AISensei.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AISensei.entitlements; sourceTree = "<group>"; };
+		B1BFF27F29EC07C000185688 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B1D0B97529D8E3920073AA9D /* AISensei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AISensei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISenseiApp.swift; sourceTree = "<group>"; };
 		B1D0B97A29D8E3920073AA9D /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				B1D0B97829D8E3920073AA9D /* AISenseiApp.swift */,
 				B1D0B97C29D8E3930073AA9D /* Assets.xcassets */,
 				B1D0B97E29D8E3930073AA9D /* Preview Content */,
+				B1BFF27F29EC07C000185688 /* Settings.bundle */,
 			);
 			path = AISensei;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1D0B98029D8E3930073AA9D /* Preview Assets.xcassets in Resources */,
+				B1BFF28029EC07C000185688 /* Settings.bundle in Resources */,
 				B1D0B97D29D8E3930073AA9D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
