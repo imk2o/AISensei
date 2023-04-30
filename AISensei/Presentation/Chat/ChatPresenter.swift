@@ -22,6 +22,7 @@ final class ChatPresenter: ObservableObject {
     @Published private(set) var state: State = .unprepared
     @Published private(set) var canEdit = false
     @Published private(set) var canSubmit = false
+    @Published var anchorMessage: ChatMessage?
 
     @Published var prompt: String = ""
 //    @Published var prompt: String = "猫の遺伝子組み合わせによる毛色の違いを表にしてください"
@@ -43,6 +44,7 @@ final class ChatPresenter: ObservableObject {
                 .filter { $0.language == "ja-JP" }
 
             messages = try await chatService.messages(for: chatSession)
+            anchorMessage = messages.last
             
             state = .ready
         } catch {
@@ -89,6 +91,7 @@ final class ChatPresenter: ObservableObject {
                     state = .querying
                     prompt = ""
                     messages.append(message)
+                    anchorMessage = message
                     lastMessages = messages
                 case .answering(let message):
                     // 回答中のメッセージ

@@ -68,8 +68,9 @@ final class ChatService {
                     let stream = try await api.sendStream(prompt, history: messages)
 
                     var finalMessage: ChatMessage?
+                    let id = UUID().uuidString
                     for try await response in stream {
-                        let message = ChatMessage(response: response)
+                        let message = ChatMessage(response: response, id: id)
                         continuation.yield(.answering(message))
                         finalMessage = message
                     }

@@ -41,23 +41,33 @@ struct ChatView: View {
     
     private func contentView() -> some View {
         VStack {
-            List {
-                ForEach(presenter.messages, id: \.self) { message in
-                    Section {
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(presenter.messages) { message in
                         HStack(alignment: .bottom) {
                             Markdown(message.content)
+                                .id(message)
                             VStack {
                                 Button(
                                     action: { Task { await presenter.speak(message: message) } },
                                     label: { Image(systemName: "speaker.wave.2") }
                                 )
-//                                .buttonStyle(.link)
                                 Button(
                                     action: { Task { await presenter.copy(message: message) } },
                                     label: { Image(systemName: "doc.on.doc") }
                                 )
-//                                .buttonStyle(.link)
                             }
+                        }
+                        .padding()
+                        .background(Color(uiColor: .secondarySystemBackground))
+                        .cornerRadius(16)
+                    }
+                    Spacer(minLength: 400)
+                }
+                .onChange(of: presenter.anchorMessage) { message in
+                    if let message {
+                        withAnimation {
+                            proxy.scrollTo(message, anchor: .top)
                         }
                     }
                 }

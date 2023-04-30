@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct ChatMessage: Sendable, Codable, Hashable {
+struct ChatMessage: Sendable, Identifiable, Codable, Hashable {
+    let id: String
     let role: String
     let content: String
 }
@@ -16,11 +17,13 @@ struct ChatMessage: Sendable, Codable, Hashable {
 
 extension ChatMessage {
     init(record: ChatMessageRecord) {
+        self.id = record.id.flatMap(String.init) ?? ""
         self.role = record.role
         self.content = record.content
     }
     
-    init(response: ChatMessageResponse) {
+    init(response: ChatMessageResponse, id: String) {
+        self.id = id
         self.role = response.role
         self.content = response.content
     }
