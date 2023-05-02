@@ -41,23 +41,33 @@ struct ChatView: View {
     
     private func contentView() -> some View {
         VStack {
-            List {
-                ForEach(presenter.messages, id: \.self) { message in
-                    Section {
-                        HStack(alignment: .bottom) {
-                            Markdown(message.content)
-                            VStack {
-                                Button(
-                                    action: { Task { await presenter.speak(message: message) } },
-                                    label: { Image(systemName: "speaker.wave.2") }
-                                )
-//                                .buttonStyle(.link)
-                                Button(
-                                    action: { Task { await presenter.copy(message: message) } },
-                                    label: { Image(systemName: "doc.on.doc") }
-                                )
-//                                .buttonStyle(.link)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(presenter.messages) { message in
+                        switch message.role {
+                        case "user":
+                            MyMessage(message: message)
+                                .id(message)
+                        case "assistant":
+                            CounterpartMessage(message: message) { action in
+                                switch action {
+                                case .copy:
+                                    Task { await presenter.copy(message: message) }
+                                case .speak:
+                                    Task { await presenter.speak(message: message) }
+                                }
                             }
+                            .id(message)
+                        default:
+                            EmptyView()
+                        }
+                    }
+                    Spacer(minLength: 400)
+                }
+                .onChange(of: presenter.anchorMessage) { message in
+                    if let message {
+                        withAnimation {
+                            proxy.scrollTo(message, anchor: .top)
                         }
                     }
                 }
@@ -91,6 +101,55 @@ struct ChatView: View {
         .padding()
     }
     
+    private struct MyMessage: View {
+        let message: ChatMessage
+        
+        var body: some View {
+            HStack {
+                Spacer(minLength: 64)
+                Group {
+                    Markdown(message.content)
+                }
+                .padding()
+                .background(Color(uiColor: .secondarySystemBackground))
+                .cornerRadius(16)
+            }
+        }
+    }
+
+    private struct CounterpartMessage: View {
+        let message: ChatMessage
+        enum Action {
+            case copy
+            case speak
+        }
+        let action: (Action) -> Void
+        
+        var body: some View {
+            HStack {
+                HStack {
+                    Markdown(message.content)
+                    VStack {
+                        Spacer()
+                        Button(
+                            action: { action(.speak) },
+                            label: { Image(systemName: "speaker.wave.2") }
+                        )
+                        Divider()
+                            .frame(width: 32)
+                        Button(
+                            action: { action(.copy) },
+                            label: { Image(systemName: "doc.on.doc") }
+                        )
+                    }
+                }
+                .padding()
+                .background(Color(uiColor: .secondarySystemBackground))
+                .cornerRadius(16)
+                Spacer(minLength: 64)
+            }
+        }
+    }
     private func showSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             Task {
